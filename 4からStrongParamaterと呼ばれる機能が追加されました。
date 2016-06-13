@@ -1,0 +1,70 @@
+[1mdiff --git a/app/controllers/messages_controller.rb b/app/controllers/messages_controller.rb[m
+[1mindex 7df096e..04ea699 100644[m
+[1m--- a/app/controllers/messages_controller.rb[m
+[1m+++ b/app/controllers/messages_controller.rb[m
+[36m@@ -1,4 +1,28 @@[m
+ class MessagesController < ApplicationController[m
+   def index[m
+[32m+[m[32m    # 初期化[m
+[32m+[m[32m    @message = Message.new[m
+[32m+[m[32m    # 一覧の取得[m
+[32m+[m[32m    @messages = Message.all[m
+   end[m
+[32m+[m[41m  [m
+[32m+[m[32m  def create[m
+[32m+[m[32m    # リクエストパラメータを取得して、DBに登録[m
+[32m+[m[32m    @message = Message.new(message_params)[m
+[32m+[m
+[32m+[m[32m    # commit[m
+[32m+[m[32m    @message.save[m
+[32m+[m[41m    [m
+[32m+[m[32m    # TODO まだ、わかっていない[m
+[32m+[m[32m    redirect_to root_path , notice: 'メッセージを保存しました'[m
+[32m+[m[32m  end[m
+[32m+[m[41m  [m
+[32m+[m[32m  private[m
+[32m+[m[41m  [m
+[32m+[m[32m  # Rails4からStrongParamaterと呼ばれる機能が追加[m
+[32m+[m[32m  # セキュリティのため、permitメソッドで許可したパラメータ名しか取得できない[m
+[32m+[m[32m  def message_params[m
+[32m+[m[32m    params.require(:message).permit(:name, :body)[m
+[32m+[m[32m  end[m
+[32m+[m
+ end[m
+[1mdiff --git a/app/views/messages/index.html.erb b/app/views/messages/index.html.erb[m
+[1mindex 903e282..0c14179 100644[m
+[1m--- a/app/views/messages/index.html.erb[m
+[1m+++ b/app/views/messages/index.html.erb[m
+[36m@@ -1,2 +1,19 @@[m
+ <h1>Messages#index</h1>[m
+ <p>Find me in app/views/messages/index.html.erb</p>[m
+[32m+[m
+[32m+[m[32m<h1>メッセージ一覧</h1>[m
+[32m+[m[32m<% @messages.each do |message| %>[m
+[32m+[m[32m  id:<%= message.id %>[m
+[32m+[m[32m  名前:<%= message.name %>[m
+[32m+[m[32m  内容:<%= message.body %>[m
+[32m+[m[32m  <br>[m
+[32m+[m[32m<% end %>[m
+[32m+[m
+[32m+[m[32m<%= form_for(@message) do |f| %>[m
+[32m+[m[32m  名前:[m
+[32m+[m[32m  <%= f.text_field :name %>[m
+[32m+[m
+[32m+[m[32m  内容:[m
+[32m+[m[32m  <%= f.text_field :body %>[m
+[32m+[m[32m  <%= f.submit %>[m
+[32m+[m[32m<% end %>[m
+\ No newline at end of file[m
+[1mdiff --git a/config/routes.rb b/config/routes.rb[m
+[1mindex 713b9d1..6f2a723 100644[m
+[1m--- a/config/routes.rb[m
+[1m+++ b/config/routes.rb[m
+[36m@@ -1,5 +1,7 @@[m
+ Rails.application.routes.draw do[m
+   root 'messages#index'[m
+[32m+[m[32m  resources :messages[m
+[32m+[m[32m  # resources :messages , only: [:create][m
+ [m
+   # The priority is based upon order of creation: first created -> highest priority.[m
+   # See how all your routes lay out with "rake routes".[m
