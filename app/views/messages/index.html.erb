@@ -5,7 +5,7 @@
   <div class="panel-body">
     <% @messages.each do |message| %>
       <span class="label label-info"><%= message.name %></span>
-      <%= message.body %>
+      <%= simple_format(h(message.body)) %>
       <br>
     <% end %>
   </div>
@@ -13,7 +13,13 @@
 
 
 <%= form_for(@message) do |f| %>
-  名前:<%= f.text_field :name %>
-  内容:<%= f.text_field :body %>
+  <div>
+    <p>名前</p><%= f.text_field :name %>
+  </div>
+  <br>
+  <div>
+    <p>内容</p><%= f.text_area :body , size: "50x3" %>
+  </div>
+  <br>
   <%= f.submit class:"btn btn-sm btn-primary" %>
 <% end %>
