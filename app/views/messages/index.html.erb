@@ -4,21 +4,28 @@
   </div>
   <div class="panel-body">
     <% @messages.each do |message| %>
+    <p>
       <span class="label label-info"><%= message.name %></span>
       <%= simple_format(h(message.body)) %>
-      <br>
+    </p>
     <% end %>
   </div>
 </div>
 
 
-<%= form_for(@message) do |f| %>
-  <div>
-    <p>名前</p><%= f.text_field :name %>
+<%= form_for @message, html: {class: 'form-horizontal'} do |f| %>
+  <div class="form-group">
+    <label class="col-sm-1 control-label">名前</label>
+    <div class="col-sm-11">
+      <%= f.text_field :name, class: "form-control" %>
+    </div>
   </div>
-  <br>
-  <div>
-    <p>内容</p><%= f.text_area :body , size: "50x3" %>
+
+  <div class="form-group">
+    <label class="col-sm-1 control-label">内容</label>
+    <div class="col-sm-11">
+      <%= f.text_area :body , size: "50x3", class: "form-control" %>
+    </div>
   </div>
   <br>
   <%= f.submit class:"btn btn-sm btn-primary" %>
