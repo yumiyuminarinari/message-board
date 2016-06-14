@@ -10,11 +10,15 @@ class MessagesController < ApplicationController
     # リクエストパラメータを取得して、DBに登録
     @message = Message.new(message_params)
 
-    # commit
-    @message.save
-
-    # TODO まだ、わかっていない
-    redirect_to root_path , notice: 'メッセージを保存しました'
+      # コミット
+    if @message.save
+      redirect_to root_path , notice: 'メッセージを保存しました'
+    else
+      # メッセージが保存できなかった時
+      @messages = Message.all
+      flash.now[:alert] = "メッセージの保存に失敗しました。"
+      render 'index'
+    end
   end
 
   private
