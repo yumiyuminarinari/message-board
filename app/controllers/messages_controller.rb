@@ -1,7 +1,7 @@
 class MessagesController < ApplicationController
 
   # edit,updateメソッドの前にset_messageを実行  
-  before_action :set_message, only: [:edit, :update]
+  before_action :set_message, only: [:edit, :update, :destroy]
 
   def index
     # 初期化
@@ -32,7 +32,7 @@ class MessagesController < ApplicationController
     # リクエストパラメータを取得して、DBに登録
     @message = Message.new(message_params)
 
-      # コミット
+    # コミット
     if @message.save
       redirect_to root_path , notice: 'メッセージを保存しました'
       
@@ -47,7 +47,15 @@ class MessagesController < ApplicationController
       render 'edit'
     end
 
-  end  
+  end
+
+  def destroy
+    # リクエストパラメータを取得して、DBに登録
+    @message.destroy
+
+    redirect_to root_path , notice: 'メッセージを削除しました'
+
+  end
 
   private
 
