@@ -3,15 +3,24 @@
     メッセージ一覧
   </div>
   <div class="panel-body">
-    <% @messages.each do |message| %>
-    <p>
-      <span class="label label-info"><%= message.name %></span>
-      <%= simple_format(h(message.body)) %>
-      (
-      <%= link_to "edit" , edit_message_path(message) %> , 
-      <%= link_to "destroy" , message , method: :delete, data: { confirm: '削除してもよろしいですか？' } %>
-      )
-    </p>
+    <% if @messages.size == 0 then %>
+      メッセージ一覧はありません。
+    <% else %>
+      <% @messages.each do |message| %>
+      <p>
+        <span class="label label-info"><%= message.name %></span>
+        <% if message.age == nil then %>
+          <span class="label label-primary">未設定</span>
+        <% else %>
+          <span class="label label-primary"><%= message.age %>歳</span>
+        <% end %>
+        <%= simple_format(h(message.body)) %>
+        (
+        <%= link_to "edit" , edit_message_path(message) %> , 
+        <%= link_to "destroy" , message , method: :delete, data: { confirm: '削除してもよろしいですか？' } %>
+        )
+      </p>
+      <% end %>
     <% end %>
   </div>
 </div>

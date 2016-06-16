@@ -59,7 +59,7 @@ class MessagesController < ApplicationController
   # Rails4からStrongParamaterと呼ばれる機能が追加
   # セキュリティのため、permitメソッドで許可したパラメータ名しか取得できない
   def message_params
-    params.require(:message).permit(:name, :body)
+    params.require(:message).permit(:name, :body, :age)
   end
 
   def set_message
