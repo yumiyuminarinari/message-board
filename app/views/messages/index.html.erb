@@ -7,6 +7,9 @@
     <p>
       <span class="label label-info"><%= message.name %></span>
       <%= simple_format(h(message.body)) %>
+      (
+      <%= link_to "edit" , edit_message_path(message) %>
+      )
     </p>
     <% end %>
   </div>
@@ -14,3 +17,4 @@
 
 <% #部分テンプレートを読み込んでいる %>
 <%= render 'form' %>
+
