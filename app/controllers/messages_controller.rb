@@ -29,11 +29,8 @@ class MessagesController < ApplicationController
   end
 
   def update
-    # リクエストパラメータを取得して、DBに登録
-    @message = Message.new(message_params)
 
-    # コミット
-    if @message.save
+    if @message.update(message_params)
       redirect_to root_path , notice: 'メッセージを保存しました'
       
       # 自分の画面にメッセージを正常終了するメッセージを表示
